@@ -12,11 +12,10 @@ function renderRoute(Handler, path) {
         }
     };
     let appHtml = React.renderToString(<Handler />);
-    let appScriptSrc = 'assets/bundle/bundle.js';
+    let appScriptSrc = 'assets/bundle.js';
     let scriptsHtml = `
         <script>window.__AppState__ = ${JSON.stringify(data)}</script>
         <script src="${appScriptSrc}"></script>
-        <script>window.App()</script>
     `;
     let bodyHtml = appHtml + scriptsHtml;
     let title = 'A Title';
