@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import Login from './Login';
 
 export default class Home extends React.Component {
     constructor(props) {
@@ -11,6 +12,7 @@ export default class Home extends React.Component {
         return (
             <div>
                 <h1>Home</h1>
+                <Login />
             </div>
         );
     }
