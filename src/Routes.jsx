@@ -15,10 +15,10 @@ function buildRoutes() {
     return Object.keys(routes)
         .map(key => {
             let route = routes[key];
-            if (key === '/') {
+            if (route.isDefault) {
                 return <DefaultRoute name={key} handler={route.handler} key={route.path}/>
             }
-            if (key === 'not-found') {
+            if (route.isNotFound) {
                 return <NotFoundRoute name={key} handler={route.handler} key={route.path}/>
             }
             return <Route name={key} handler={route.handler} path={route.path} key={route.path}/>
