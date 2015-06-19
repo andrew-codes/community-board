@@ -29,6 +29,7 @@
   },
   "scripts": {
     "start": "NODE_ENV=production ./node_modules/.bin/gulp webpack && node --harmony ./src/index.js",
+    "dev": "./node_modules/.bin/gulp",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
