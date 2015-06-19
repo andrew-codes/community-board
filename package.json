@@ -28,7 +28,7 @@
     "webpack-dev-server": "^1.9.0"
   },
   "scripts": {
-    "start": "NODE_ENV=production ./node_modules/.bin/gulp",
+    "start": "NODE_ENV=production ./node_modules/.bin/gulp webpack && node --harmony ./src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

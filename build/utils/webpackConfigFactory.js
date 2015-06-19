@@ -3,39 +3,39 @@
 import webpack from 'webpack';
 import path from 'path';
 
-export default function (isProduction, port) {
+export default function (config) {
     return {
-        cache: !isProduction,
-        debug: !isProduction,
-        devtool: !isProduction && 'eval-source-map',
-        entry: isProduction ? [
+        cache: !config.isProduction,
+        debug: !config.isProduction,
+        devtool: !config.isProduction && 'eval-source-map',
+        entry: config.isProduction ? [
             path.join(__dirname, './../../src/client/index.jsx')
         ] : [
-            `webpack-dev-server/client?http://localhost:${port}`,
+            `webpack-dev-server/client?${config.webpackDevUrl}`,
             // Why only-dev-server instead of dev-server:
             // https://github.com/webpack/webpack/issues/418#issuecomment-54288041
             'webpack/hot/only-dev-server',
             path.join(__dirname, './../../src/client/index.jsx')
         ],
-        output: isProduction ? {
+        output: config.isProduction ? {
             path: path.join(__dirname, './../../src/client/assets'),
             filename: 'bundle.js'
         } : {
             path: path.join(__dirname, './../../src/client/assets'),
             filename: 'bundle.js',
-            publicPath: `http://localhost:${port}/assets/`
+            publicPath: `${config.webpackDevUrl}/assets/`
         },
         plugins: (function () {
             let plugins = [
                 new webpack.DefinePlugin({
                     'process.env': {
-                        NODE_ENV: JSON.stringify(isProduction ? 'production' :
+                        NODE_ENV: JSON.stringify(config.isProduction ? 'production' :
                             'development'),
                         IS_BROWSER: true
                     }
                 })
             ];
-            if (isProduction) {
+            if (config.isProduction) {
                 plugins.push(
                     new webpack.optimize.DedupePlugin(),
                     new webpack.optimize.OccurenceOrderPlugin(),
@@ -61,7 +61,7 @@ export default function (isProduction, port) {
             loaders: [{
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
-                loaders: isProduction ? ['babel'] : ['react-hot', 'babel']
+                loaders: config.isProduction ? ['babel'] : ['react-hot', 'babel']
             }]
         }
     };

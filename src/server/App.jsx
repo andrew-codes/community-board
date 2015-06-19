@@ -4,6 +4,7 @@ import React from 'react';
 import Router from 'react-router';
 import Routes from './../Routes';
 import Html from './../components/Html';
+import config from './../../build/config';
 
 function renderRoute(Handler, path) {
     let data = {
@@ -12,7 +13,8 @@ function renderRoute(Handler, path) {
         }
     };
     let appHtml = React.renderToString(<Handler />);
-    let appScriptSrc = 'assets/bundle.js';
+    let bundleScriptSrc = 'assets/bundle.js';
+    let appScriptSrc = config.isProduction ? bundleScriptSrc : `${config.webpackDevUrl}/${bundleScriptSrc}`;
     let scriptsHtml = `
         <script>window.__AppState__ = ${JSON.stringify(data)}</script>
         <script src="${appScriptSrc}"></script>
