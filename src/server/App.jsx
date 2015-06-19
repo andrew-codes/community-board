@@ -6,6 +6,19 @@ import Routes from './../Routes';
 import Html from './../components/Html';
 import config from './../../build/config';
 
+export default function (path) {
+    return new Promise(resolve => {
+        Router.run(Routes, path, (Handler, state) => {
+            let html = renderRoute(Handler, path);
+            let isNotFound = state.routes.some(route => route.name.toLowerCase() === 'not-found');
+            resolve({
+                html: html,
+                statusCode: isNotFound ? 404 : 200
+            });
+        });
+    });
+};
+
 function renderRoute(Handler, path) {
     let data = {
         pageMeta: {
@@ -26,16 +39,3 @@ function renderRoute(Handler, path) {
     );
     return `<!DOCTYPE html>${htmlBody}`;
 }
-
-export default function (path) {
-    return new Promise(resolve => {
-        Router.run(Routes, path, (Handler, state) => {
-            let html = renderRoute(Handler, path);
-            let isNotFound = state.routes.some(route => route.name.toLowerCase() === 'not-found');
-            resolve({
-                html: html,
-                statusCode: isNotFound ? 404 : 200
-            });
-        });
-    });
-};
