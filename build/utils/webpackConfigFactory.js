@@ -9,13 +9,13 @@ export default function (config) {
         debug: !config.isProduction,
         devtool: !config.isProduction && 'eval-source-map',
         entry: config.isProduction ? [
-            path.join(__dirname, './../../src/client/index.jsx')
+            path.join(__dirname, './../../src/client/clientApplication.js')
         ] : [
             `webpack-dev-server/client?${config.webpackDevUrl}`,
             // Why only-dev-server instead of dev-server:
             // https://github.com/webpack/webpack/issues/418#issuecomment-54288041
             'webpack/hot/only-dev-server',
-            path.join(__dirname, './../../src/client/index.jsx')
+            path.join(__dirname, './../../src/client/clientApplication.js')
         ],
         output: config.isProduction ? {
             path: path.join(__dirname, './../../src/client/assets'),

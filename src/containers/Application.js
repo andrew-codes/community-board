@@ -1,9 +1,10 @@
 'use strict';
 
 import React from 'react';
-import Login from './Login';
+import Router from 'react-router';
+var RouteHandler = Router.RouteHandler;
 
-export default class Home extends React.Component {
+export default class Application extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -11,8 +12,7 @@ export default class Home extends React.Component {
     render() {
         return (
             <div>
-                <h1>Home</h1>
-                <Login />
+                <RouteHandler />
             </div>
         );
     }

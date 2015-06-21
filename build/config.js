@@ -1,6 +1,6 @@
 'use strict';
 
-let isProduction = process.NODE_ENV === 'production';
+let isProduction = process.env.NODE_ENV === 'production';
 
 const config = {
     isProduction,

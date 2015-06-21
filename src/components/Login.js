@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import SecurityActions from './../actions/Security';
 
 export default class Login extends React.Component {
     constructor(props) {
@@ -11,12 +10,8 @@ export default class Login extends React.Component {
     render() {
         return (
             <div>
-                <button onClick={signInWithGitHub.bind(this)}>Sign-In with GitHub</button>
+                <button>Sign-In with GitHub</button>
             </div>
         );
     }
-}
-
-function signInWithGitHub() {
-    SecurityActions.signInWithGitHub();
 }

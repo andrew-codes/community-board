@@ -16,6 +16,7 @@ export default class Html extends React.Component {
                 <title ref="title">{this.props.title}</title>
                 <meta name="viewport" content="width=device-width, user-scalable=no"/>
                 <meta name="HandheldFriendly" content="True"/>
+                <link rel="shortcut icon" type="image/x-icon" href="assets/favicon.ico" />
             </head>
             <body dangerouslySetInnerHTML={{__html: this.props.bodyHtml}} ref="bodyEl"/>
             </html>

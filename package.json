@@ -7,13 +7,14 @@
   "dependencies": {
     "babel": "^5.5.8",
     "co-body": "^2.0.0",
-    "flux": "^2.0.3",
+    "immutable": "^3.7.4",
     "koa": "^0.21.0",
     "koa-route": "^2.4.1",
     "koa-send": "^1.3.1",
     "koa-static": "^1.4.9",
     "react": "^0.13.3",
-    "react-router": "^0.13.3"
+    "react-router": "0.13.3",
+    "redux": "^0.12.0"
   },
   "devDependencies": {
     "babel-core": "^5.5.8",
@@ -28,8 +29,7 @@
     "webpack-dev-server": "^1.9.0"
   },
   "scripts": {
-    "start": "NODE_ENV=production ./node_modules/.bin/gulp webpack && node --harmony ./src/index.js",
-    "dev": "./node_modules/.bin/gulp",
+    "start": "./node_modules/.bin/gulp",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

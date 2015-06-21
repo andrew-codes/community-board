@@ -1,8 +1,9 @@
 'use strict';
 
 import React from 'react';
+import {Link} from 'react-router';
 
-export default class NotFound extends React.Component {
+export default class Home extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -10,9 +11,8 @@ export default class NotFound extends React.Component {
     render() {
         return (
             <div>
-                <h1>Oops...</h1>
-
-                <p>How embarrassing! Um, this is not the page you are looking for...</p>
+                <h1>Home</h1>
+                <Link to="/about">About</Link>
             </div>
         );
     }
