@@ -5,7 +5,6 @@ import Router from 'react-router';
 import config from './../../build/config';
 import Routes from './../Routes';
 import Root from './../containers/Root';
-import Html from './Html';
 import { createRedux } from 'redux';
 import * as stores from '../stores/index';
 
@@ -27,10 +26,21 @@ function renderRoute(RouteRoot, state) {
         <script>window.__APP_STATE__ = ${JSON.stringify(initialData)}</script>
         <script src="${appScriptSrc}"></script>
     `;
-    var bodyHtml = appHtml + scriptsHtml;
     var title = 'A Title';
-    var htmlBody = React.renderToStaticMarkup(
-        <Html bodyHtml={bodyHtml} title={title}/>
-    );
-    return `<!DOCTYPE html>${htmlBody}`;
+    return buildHtmlPage(scriptsHtml, appHtml, title);
+}
+
+function buildHtmlPage(scriptsHtml, bodyHtml, title){
+    return `<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charSet="utf-8"/>
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge"/>
+        <title ref="title">${title}</title>
+        <meta name="viewport" content="width=device-width, user-scalable=no"/>
+        <meta name="HandheldFriendly" content="True"/>
+        <link rel="shortcut icon" type="image/x-icon" href="assets/favicon.ico" />
+    </head>
+    <body><div>${bodyHtml}</div>${scriptsHtml}<body>
+    </html>`;
 }
