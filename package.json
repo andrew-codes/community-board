@@ -12,9 +12,11 @@
     "koa-route": "^2.4.1",
     "koa-send": "^1.3.1",
     "koa-static": "^1.4.9",
+    "lodash": "^3.9.3",
     "react": "^0.13.3",
     "react-router": "0.13.3",
-    "redux": "^0.12.0"
+    "redux": "^0.12.0",
+    "uniqueid": "^0.1.0"
   },
   "devDependencies": {
     "babel-core": "^5.5.8",
