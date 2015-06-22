@@ -1,4 +1,4 @@
 'use strict';
 
 
-export {default as issues} from './Issues';
+export {default as GitHubStore} from './GitHubStore';
