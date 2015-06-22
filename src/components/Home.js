@@ -3,7 +3,7 @@
 import React from 'react';
 import {bindActionCreators} from 'redux';
 import {Connector, connect} from 'redux/react';
-import GitHubActions from './../actions/GitHubActions';
+import * as GitHub from './../modules/GitHub';
 import Board from './Board';
 
 function select(state) {
@@ -19,7 +19,7 @@ export default class BoardPage extends React.Component {
         return (
             <Connector select={select}>{
                 ({dispatch, issues})=> {
-                    return <Board issues={issues} {...bindActionCreators(GitHubActions, dispatch)} />
+                    return <Board issues={issues} {...bindActionCreators(GitHub.Actions, dispatch)} />
                 }
             }
             </Connector>

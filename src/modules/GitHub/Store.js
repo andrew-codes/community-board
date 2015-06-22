@@ -1,8 +1,8 @@
 'use strict';
 
 import {default as Immutable, Map, List} from 'immutable';
-import {createStore, getActionIds} from './../lib/utils/redux';
-import GitHubActions from './../actions/GitHubActions';
+import {createStore, getActionIds} from './../../lib/utils/redux';
+import GitHubActions from './Actions';
 
 const initialState = Map({
     isLoaded: false,

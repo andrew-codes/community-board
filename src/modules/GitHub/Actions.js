@@ -1,6 +1,6 @@
 'use strict';
 
-import {createActions} from './../lib/utils/redux';
+import {createActions} from './../../lib/utils/redux';
 
 const GitHubActions = createActions({
     loadIssues: function (issues) {

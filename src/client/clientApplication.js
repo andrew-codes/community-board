@@ -6,8 +6,9 @@ import Router from 'react-router';
 import Routes from './../Routes';
 import {createDispatcher, createRedux, composeStores} from 'redux'
 import {Provider} from 'redux/react';
-import * as stores from '../stores/index';
 import * as middlewares from './../middleware';
+
+import * as stores from './../modules/stores';
 
 const {loggerMiddleware, thunkMiddleware, promiseMiddleware} = middlewares;
 const dispatcher = createDispatcher(

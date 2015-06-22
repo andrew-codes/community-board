@@ -6,7 +6,7 @@ import config from './../../build/config';
 import Routes from './../Routes';
 import Root from './../containers/Root';
 import { createRedux } from 'redux';
-import * as stores from '../stores/index';
+import * as stores from './../modules/stores';
 
 export default function (path) {
     return new Promise(resolve => {
