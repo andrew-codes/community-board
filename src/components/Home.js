@@ -1,19 +1,28 @@
 'use strict';
 
 import React from 'react';
-import {Link} from 'react-router';
+import {bindActionCreators} from 'redux';
+import {Connector, connect} from 'redux/react';
+import GitHubActions from './../actions/GitHubActions';
+import Board from './Board';
 
-export default class Home extends React.Component {
+function select(state) {
+    return {issues: state.GitHubStore.get('issues').toJS()}
+}
+
+export default class BoardPage extends React.Component {
     constructor(props) {
         super(props);
     }
 
     render() {
         return (
-            <div>
-                <h1>Home</h1>
-                <Link to="/about">About</Link>
-            </div>
+            <Connector select={select}>{
+                ({dispatch, issues})=> {
+                    return <Board issues={issues} {...bindActionCreators(GitHubActions, dispatch)} />
+                }
+            }
+            </Connector>
         );
     }
 }
