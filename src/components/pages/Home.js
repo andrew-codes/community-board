@@ -4,9 +4,13 @@ import React from 'react';
 import {bindActionCreators} from 'redux';
 import {Connector, connect} from 'redux/react';
 import * as GitHub from './../../modules/GitHub';
+import * as Issues from './../../modules/Boards';
 import Board from './../Board';
 import AccountSources from './../AccountSources';
 
+var sources = [
+    GitHub.AccountSource
+];
 export default class extends React.Component {
     constructor(props) {
         super(props);
@@ -23,14 +27,15 @@ export default class extends React.Component {
 }
 
 function getMainContent() {
-    if (!haveAccountSources()) {
-        return (
-            <AccountSources />
-        );
-    }
     return (
         <Connector select={stateSelect}>{
-            ({dispatch, issues})=> {
+            ({dispatch, issues, boardId})=> {
+                if (!boardId) {
+                    return (
+                        <AccountSources sources={sources} {...bindActionCreators(Issues.Actions, dispatch)}/>
+                    );
+                }
+
                 return (
                     <Board issues={issues} {...bindActionCreators(GitHub.Actions, dispatch)} />
                 );
@@ -40,16 +45,11 @@ function getMainContent() {
     );
 }
 
-function haveAccountSources() {
-    return false;
-}
-
 function stateSelect(state) {
-    return {issues: state.GitHubStore.get('issues')}
-}
-
-function notLoggedInStateSelect(state){
+    var boardId = state.Boards.get('currentBoardId');
+    var issues = state.Boards.getIn(['boards', boardId, 'issues']);
     return {
-        supportedAccountSources: ['GitHub']
+        boardId,
+        issues
     }
 }
