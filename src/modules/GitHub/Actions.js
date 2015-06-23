@@ -13,17 +13,6 @@ const Actions = createActions({
         var gitHubRequestState = `${clientId}+${uniqueId()}`;
         var gitHubUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&scopes=${scopes}&redirect_uri=${authorizationRedirectUrl}&state=${gitHubRequestState}`;
         window.location.href = gitHubUrl;
-    },
-    loadIssues: function (issues) {
-        return {issues};
-    },
-    fetchIssuesForUser: function (userName) {
-        return dispatch => {
-            var issues = [{
-                name: 'Fake Issue'
-            }];
-            dispatch(Actions.loadIssues(issues));
-        }
     }
 });
 export default Actions;

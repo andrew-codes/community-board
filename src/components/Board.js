@@ -5,7 +5,9 @@ import {Link} from 'react-router';
 
 export default class extends React.Component {
     static defaultProps = {
-        issues: []
+        board: {
+            issues: []
+        }
     };
 
     constructor(props) {
@@ -13,11 +15,11 @@ export default class extends React.Component {
     }
 
     render() {
-        const { fetchIssuesForUser, issues } = this.props;
+        const { issues } = this.props.board;
         return (
             <div>
-                <h1 onClick={fetchIssuesForUser.bind(this, 'username')}>Board</h1>
-                {issues.map((issue, index)=> <p key={index}>{issue.name}</p>)}
+                <h1>Board</h1>
+                {issues.map((issue, index)=> <p key={index}>{issue.get('name')}</p>)}
             </div>
         );
     }

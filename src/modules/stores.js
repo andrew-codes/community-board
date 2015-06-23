@@ -1,4 +1,4 @@
 'use strict';
 
-export { default as GitHub} from './GitHub/Store';
-export { default as Boards} from './Boards/Store';
+export { default as GitHubStore} from './GitHub/Store';
+export { default as BoardStore} from './Boards/Store';

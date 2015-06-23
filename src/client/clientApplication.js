@@ -15,7 +15,7 @@ const dispatcher = createDispatcher(
     composeStores(stores),
         getState => [promiseMiddleware, thunkMiddleware(getState), loggerMiddleware]
 );
-const redux = createRedux(dispatcher);
+const redux = createRedux(dispatcher, window.__APP_STATE__);
 
 Router.run(Routes, Router.HistoryLocation, (Handler, state) => {
     React.render(<Root redux={redux} handler={Handler} {...state}/>, document.body);

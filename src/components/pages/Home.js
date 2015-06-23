@@ -4,7 +4,7 @@ import React from 'react';
 import {bindActionCreators} from 'redux';
 import {Connector, connect} from 'redux/react';
 import * as GitHub from './../../modules/GitHub';
-import * as Issues from './../../modules/Boards';
+import * as Boards from './../../modules/Boards';
 import Board from './../Board';
 import AccountSources from './../AccountSources';
 
@@ -17,7 +17,7 @@ export default class extends React.Component {
     }
 
     render() {
-        var mainContent = getMainContent();
+        var mainContent = getMainContent.call(this);
         return (
             <main>
                 {mainContent}
@@ -29,15 +29,15 @@ export default class extends React.Component {
 function getMainContent() {
     return (
         <Connector select={stateSelect}>{
-            ({dispatch, issues, boardId})=> {
-                if (!boardId) {
+            ({dispatch, issues, BoardStore})=> {
+                if (!BoardStore.currentBoardId) {
                     return (
-                        <AccountSources sources={sources} {...bindActionCreators(Issues.Actions, dispatch)}/>
+                        <AccountSources sources={sources} {...bindActionCreators(Boards.Actions, dispatch)}/>
                     );
                 }
 
                 return (
-                    <Board issues={issues} {...bindActionCreators(GitHub.Actions, dispatch)} />
+                    <Board issues={BoardStore.boards[BoardStore.currentBoardId]} {...bindActionCreators(GitHub.Actions, dispatch)} />
                 );
             }
         }
@@ -46,10 +46,5 @@ function getMainContent() {
 }
 
 function stateSelect(state) {
-    var boardId = state.Boards.get('currentBoardId');
-    var issues = state.Boards.getIn(['boards', boardId, 'issues']);
-    return {
-        boardId,
-        issues
-    }
+    return state;
 }

@@ -7,6 +7,7 @@ import Routes from './../Routes';
 import Root from './../containers/Root';
 import { createRedux } from 'redux';
 import * as stores from './../modules/stores';
+import RouteToInitialData from './RouteToInitialData';
 
 export default function (path) {
     return new Promise(resolve => {
@@ -17,8 +18,8 @@ export default function (path) {
 };
 
 function renderRoute(RouteRoot, state) {
-    var initialData = {};
-    const redux = createRedux(stores, initialData);
+    const redux = createRedux(stores);
+    var initialData = RouteToInitialData(redux, state);
     var appHtml = React.renderToString(<Root redux={redux} handler={RouteRoot} {...state} />);
     var bundleScriptSrc = 'assets/bundle.js';
     var appScriptSrc = config.isProduction ? bundleScriptSrc : `${config.webpackDevUrl}/${bundleScriptSrc}`;
