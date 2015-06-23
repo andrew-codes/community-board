@@ -5,6 +5,7 @@
   "main": "",
   "private": true,
   "dependencies": {
+    "axios": "^0.5.4",
     "babel": "^5.5.8",
     "co-body": "^2.0.0",
     "immutable": "^3.7.4",

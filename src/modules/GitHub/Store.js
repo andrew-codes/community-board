@@ -2,13 +2,14 @@
 
 import {default as Immutable, Map, List} from 'immutable';
 import {createStore, getActionIds} from './../../lib/utils/redux';
-import GitHubActions from './Actions';
+import Actions from './Actions';
 
 const initialState = Map({
-    isLoaded: false,
+    authorizationState: 'hello world',
     issues: List()
 });
-const actions = getActionIds(GitHubActions);
+const actions = getActionIds(Actions);
+
 export default createStore(initialState, {
     [actions.loadIssues]: (state, action) => {
         return state.withMutations(s =>

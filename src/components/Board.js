@@ -3,7 +3,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 
-export default class Home extends React.Component {
+export default class extends React.Component {
     static defaultProps = {
         issues: []
     };
@@ -17,7 +17,7 @@ export default class Home extends React.Component {
         return (
             <div>
                 <h1 onClick={fetchIssuesForUser.bind(this, 'username')}>Board</h1>
-                {issues.map((issue, index)=> <p key={index}>{issue.name}</p>)}
+                {issues.map((issue, index)=> <p key={index}>{issue.get('name')}</p>)}
             </div>
         );
     }
