@@ -14,42 +14,11 @@ export function getIssues(username, repoName) {
 }
 
 function transformToGitHubData(gitHubIssues) {
-    var issues = gitHubIssues.map(issue=> {
-        return {
-            id: issue.id,
-            displayId: issue.number,
-            url: issue.url,
-            title: issue.title,
-            description: issue.body,
-            state: issue.state,
-            labels: issue.labels,
-            comments: issue.comments,
-            closedAt: moment(issue.closed_at),
-            assignee: issue.assignee ? {
-                id: issue.assignee.id
-            } : null,
-            milestone: issue.milestone ? {
-                id: issue.milestone.id
-            } : null
-        };
-    });
+    var issues = gitHubIssues.map(transformIssue);
     var users = _.chain(gitHubIssues.map(issue=> {
-        var output = [
-            {
-                id: issue.user.id,
-                avatarUrl: issue.user.avatar_url,
-                gravatarId: issue.user.gravatar_id,
-                login: issue.user.login,
-                url: issue.user.url
-            }];
+        var output = [transformUser(issue.user)];
         if (issue.assignee) {
-            output.push({
-                id: issue.assignee.id,
-                avatarUrl: issue.assignee.avatar_url,
-                gravatarId: issue.assignee.gravatar_id,
-                login: issue.assignee.login,
-                url: issue.assignee.url
-            });
+            output.push(transformUser(issue.assignee));
         }
         return output;
     }))
@@ -61,14 +30,7 @@ function transformToGitHubData(gitHubIssues) {
             if (!issue.milestone) {
                 return null;
             }
-            return {
-                id: issue.milestone.id,
-                url: issue.milestone.url,
-                displayId: issue.milestone.number,
-                state: issue.milestone.state,
-                title: issue.milestone.title,
-                description: issue.milestone.description
-            };
+            return transformMilestone(issue.milestone);
         }
     ))
         .filter(milestone=> {
@@ -77,4 +39,45 @@ function transformToGitHubData(gitHubIssues) {
         .unique()
         .value();
     return {issues, users, milestones};
+}
+
+function transformIssue(issue) {
+    return {
+        id: issue.id,
+        displayId: issue.number,
+        url: issue.url,
+        title: issue.title,
+        description: issue.body,
+        state: issue.state,
+        labels: issue.labels,
+        comments: issue.comments,
+        closedAt: moment(issue.closed_at),
+        assignee: issue.assignee ? {
+            id: issue.assignee.id
+        } : null,
+        milestone: issue.milestone ? {
+            id: issue.milestone.id
+        } : null
+    };
+}
+
+function transformUser(user) {
+    return {
+        id: user.id,
+        avatarUrl: user.avatar_url,
+        gravatarId: user.gravatar_id,
+        login: user.login,
+        url: user.url
+    };
+}
+
+function transformMilestone(milestone) {
+    return {
+        id: milestone.id,
+        url: milestone.url,
+        displayId: milestone.number,
+        state: milestone.state,
+        title: milestone.title,
+        description: milestone.description
+    };
 }
