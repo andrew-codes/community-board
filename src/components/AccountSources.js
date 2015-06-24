@@ -27,7 +27,7 @@ export default class extends React.Component {
                     <h1>View a public board<span>*</span></h1>
                     <input ref="username" placeholder="username"/><span>/</span><input ref="repoName"
                                                                                        placeholder="repository name"/>
-                    <button onClick={addBoard.bind(this)}>
+                    <button onClick={loadBoard.bind(this)}>
                         View
                     </button>
                     <footer>
@@ -53,12 +53,12 @@ export default class extends React.Component {
     }
 }
 
-function addBoard() {
-    var {addBoard, selectBoard} = this.props;
+function loadBoard() {
+    var {loadBoard, selectBoard} = this.props;
     var accountType = 'github';
     var username = this.refs.username.getDOMNode().value;
     var repoName = this.refs.repoName.getDOMNode().value;
-    addBoard(accountType, username, repoName)
+    loadBoard(accountType, username, repoName)
         .then(selectBoard.bind(this, accountType, username, repoName))
         .then(() => {
             this.context.router.transitionTo(`/${accountType}/${username}/${repoName}`);

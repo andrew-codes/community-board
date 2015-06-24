@@ -10,8 +10,8 @@ const initialState = {
 const actions = getActionIds(Actions);
 
 export default createStore(initialState, {
-    [actions.addBoard]: (state = initialState, action) => {
-        state.boards[action.boardId] = action;
+    [`${actions.loadBoard}-SUCCESS`]: (state = initialState, action) => {
+        state.boards[action.result.boardId] = action.result;
         return state;
     },
     [actions.selectBoard]: (state = initialState, action) => {

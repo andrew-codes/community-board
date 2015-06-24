@@ -19,7 +19,7 @@ export default class extends React.Component {
         return (
             <div>
                 <h1>Board</h1>
-                {issues.map((issue, index)=> <p key={index}>{issue.get('name')}</p>)}
+                {issues.map((issue, index)=> <p key={index}>{issue.title}</p>)}
             </div>
         );
     }

@@ -29,15 +29,15 @@ export default class extends React.Component {
 function getMainContent() {
     return (
         <Connector select={stateSelect}>{
-            ({dispatch, issues, BoardStore})=> {
-                if (!BoardStore.currentBoardId) {
+            ({dispatch, currentBoard})=> {
+                if (!currentBoard) {
                     return (
                         <AccountSources sources={sources} {...bindActionCreators(Boards.Actions, dispatch)}/>
                     );
                 }
 
                 return (
-                    <Board issues={BoardStore.boards[BoardStore.currentBoardId]} {...bindActionCreators(GitHub.Actions, dispatch)} />
+                    <Board board={currentBoard} {...bindActionCreators(GitHub.Actions, dispatch)} />
                 );
             }
         }
@@ -46,5 +46,7 @@ function getMainContent() {
 }
 
 function stateSelect(state) {
-    return state;
+    return {
+        currentBoard: state.BoardStore.boards[state.BoardStore.currentBoardId]
+    };
 }

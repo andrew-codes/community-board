@@ -1,17 +1,17 @@
 'use strict';
 
 import {createActions} from './../../lib/utils/redux';
-import * as GitHubApi from './../GitHub/Api';
+import * as GitHub from './../GitHub';
 import uniqueId from 'uniqueid';
 
 
 const Actions = createActions({
-    addBoard: function (accountType, username, repoName) {
+    loadBoard: function (accountType, username, repoName) {
         var boardId = createBoardId(accountType, username, repoName);
-        return GitHubApi.getIssues(username, repoName)
-            .then((issues=>{
-                return {accountType, repoName, boardId, issues};
-            }));
+        return GitHub.Api.getIssues(username, repoName)
+            .then(data=> {
+                return Object.assign({}, data,{boardId});
+            });
     },
     selectBoard: function (accountType, username, repoName) {
         var boardId = createBoardId(accountType, username, repoName);
@@ -20,6 +20,6 @@ const Actions = createActions({
 });
 export default Actions;
 
-function createBoardId(accountType, username, repoName){
+function createBoardId(accountType, username, repoName) {
     return `${accountType}/${username}/${repoName}`;
 }
