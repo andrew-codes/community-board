@@ -5,34 +5,42 @@ import Router from 'react-router';
 import config from './../../build/config';
 import Routes from './../Routes';
 import Root from './../containers/Root';
-import { createRedux } from 'redux';
+import {createDispatcher, createRedux, composeStores} from 'redux';
 import * as stores from './../modules/stores';
 import RouteToInitialData from './RouteToInitialData';
+import * as middlewares from './../middleware';
+const {thunkMiddleware, promiseMiddleware} = middlewares;
+const dispatcher = createDispatcher(
+	composeStores(stores),
+		getState => [promiseMiddleware, thunkMiddleware(getState)]
+);
 
 export default function (path) {
-    return new Promise(resolve => {
-        Router.run(Routes, path, (routeRoot, state) => {
-            resolve(renderRoute(routeRoot, state));
-        });
-    });
+	return new Promise(resolve => {
+		Router.run(Routes, path, (routeRoot, state) => {
+			resolve(renderRoute(routeRoot, state));
+		});
+	});
 };
 
 function renderRoute(RouteRoot, state) {
-    const redux = createRedux(stores);
-    var initialData = RouteToInitialData(redux, state);
-    var appHtml = React.renderToString(<Root redux={redux} handler={RouteRoot} {...state} />);
-    var bundleScriptSrc = 'assets/bundle.js';
-    var appScriptSrc = config.isProduction ? bundleScriptSrc : `${config.webpackDevUrl}/${bundleScriptSrc}`;
-    var scriptsHtml = `
-        <script>window.__APP_STATE__ = ${JSON.stringify(initialData)}</script>
-        <script src="${appScriptSrc}"></script>
-    `;
-    var title = 'A Title';
-    return buildHtmlPage(scriptsHtml, appHtml, title);
+	const redux = createRedux(dispatcher, {});
+	var bundleScriptSrc = 'assets/bundle.js';
+	var appScriptSrc = config.isProduction ? bundleScriptSrc : `${config.webpackDevUrl}/${bundleScriptSrc}`;
+	return RouteToInitialData(redux, state)
+		.then(initialData=> {
+			var appHtml = React.renderToString(<Root redux={redux} handler={RouteRoot} {...state} />);
+			var scriptsHtml = `
+		        <script src="${appScriptSrc}"></script>
+		        <script>CommunityBoard(document.body, ${JSON.stringify(initialData)});</script>
+            `;
+			var title = 'A Title';
+			return buildHtmlPage(scriptsHtml, appHtml, title);
+		});
 }
 
-function buildHtmlPage(scriptsHtml, bodyHtml, title){
-    return `<!DOCTYPE html>
+function buildHtmlPage(scriptsHtml, bodyHtml, title) {
+	return `<!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charSet="utf-8"/>
