@@ -8,7 +8,7 @@ GitHub issues KanBan board
 
 ```bash
 npm install
-NODE_ENV=production npm start
+NODE_ENV=production npm start # http://localhost:8091/home
 ```
 
 # Running for Development
@@ -18,5 +18,5 @@ application should not require a restart of the server and should push to the cl
 
 ```bash
 npm install
-npm start
+npm start # http://localhost:8091/home
 ```
