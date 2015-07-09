@@ -1,4 +1,4 @@
-# codenamed-pancakes
+# Community Board
 
 GitHub issues KanBan board
 
