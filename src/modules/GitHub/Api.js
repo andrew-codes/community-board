@@ -5,7 +5,7 @@ import moment from 'moment';
 import _ from 'lodash';
 import {camelCase} from './../../lib/utils/dataTransforms';
 
-const apiRoot = 'http://api.github.com';
+const apiRoot = 'https://api.github.com';
 
 export function getIssues(username, repoName) {
     return ajax.get(`${apiRoot}/repos/${username}/${repoName}/issues`)
