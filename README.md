@@ -1,5 +1,7 @@
 # codenamed-pancakes
 
+[![Join the chat at https://gitter.im/andrew-codes/community-board](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/andrew-codes/community-board?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 GitHub issues KanBan board
 
 # Running for Production
