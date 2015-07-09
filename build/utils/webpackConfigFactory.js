@@ -19,11 +19,15 @@ export default function (config) {
         ],
         output: config.isProduction ? {
             path: path.join(__dirname, './../../src/client/assets'),
-            filename: 'bundle.js'
+            filename: 'bundle.js',
+            libraryTarget: 'umd',
+            library: 'CommunityBoard'
         } : {
             path: path.join(__dirname, './../../src/client/assets'),
             filename: 'bundle.js',
-            publicPath: `${config.webpackDevUrl}/assets/`
+            publicPath: `${config.webpackDevUrl}/assets/`,
+            libraryTarget: 'umd',
+            library: 'CommunityBoard'
         },
         plugins: (function () {
             let plugins = [
