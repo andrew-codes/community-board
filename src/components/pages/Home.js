@@ -9,44 +9,43 @@ import Board from './../Board';
 import AccountSources from './../AccountSources';
 
 var sources = [
-    GitHub.AccountSource
+	GitHub.AccountSource
 ];
 export default class extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+	constructor(props) {
+		super(props);
+	}
 
-    render() {
-        var mainContent = getMainContent.call(this);
-        return (
-            <main>
-                {mainContent}
-            </main>
-        );
-    }
+	render() {
+		var mainContent = getMainContent.call(this);
+		return (
+			<main>
+				{mainContent}
+			</main>
+		);
+	}
 }
 
 function getMainContent() {
-    return (
-        <Connector select={stateSelect}>{
-            ({dispatch, currentBoard})=> {
-                if (!currentBoard) {
-                    return (
-                        <AccountSources sources={sources} {...bindActionCreators(Boards.Actions, dispatch)}/>
-                    );
-                }
-
-                return (
-                    <Board board={currentBoard} {...bindActionCreators(GitHub.Actions, dispatch)} />
-                );
-            }
-        }
-        </Connector>
-    );
+	return (
+		<Connector select={stateSelect}>{
+			({dispatch, currentBoard})=> {
+				return (
+					<main>
+						<h1>Community Board</h1>
+						<section>
+							<p>Community board is a kanban style board powered by GitHub Issues.</p>
+						</section>
+					</main>
+				)
+			}
+		}
+		</Connector>
+	);
 }
 
 function stateSelect(state) {
-    return {
-        currentBoard: state.BoardStore.boards[state.BoardStore.currentBoardId]
-    };
+	return {
+		currentBoard: state.BoardStore.boards[state.BoardStore.currentBoardId]
+	};
 }

@@ -7,7 +7,7 @@ import {Router,Route} from 'react-router';
 
 export default (
     <Route handler={Application}>
-        <Route path="/home" handler={Home}/>
+        <Route path="/" handler={Home}/>
         <Route path="/github/:username/:repoName" handler={Home}/>
     </Route>
 );
