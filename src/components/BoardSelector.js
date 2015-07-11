@@ -39,13 +39,12 @@ function enable(isValid) {
 	this.setState({isDisabled: !isValid});
 }
 
-function loadBoard() {
+function loadBoard(model) {
 	var {loadBoard, selectBoard} = this.props;
 	var accountType = 'github';
-	var username = this.refs.username.getDOMNode().value;
-	var repoName = this.refs.repoName.getDOMNode().value;
+	var username = model.username;
+	var repoName = model.repoName;
 	loadBoard(accountType, username, repoName)
-		.then(selectBoard.bind(this, accountType, username, repoName))
 		.then(() => {
 			this.context.router.transitionTo(`/${accountType}/${username}/${repoName}`);
 		})
