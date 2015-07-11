@@ -1,6 +1,8 @@
 'use strict';
 
 import React, {PropTypes} from 'react';
+import {Form} from 'formsy-react';
+import Input from './FormControls/Input';
 
 export default class extends React.Component {
 	static defaultProps = {};
@@ -11,21 +13,31 @@ export default class extends React.Component {
 
 	constructor(props, context) {
 		super(props, context);
+		this.state = {
+			isDisabled: true
+		};
 	}
 
 	render() {
 		return (
-			<div>
-				<input ref="username" placeholder="username"/><span>/</span><input ref="repoName"
-				                                                                   placeholder="repository name"/>
-				<button onClick={loadBoard.bind(this)}>
+			<Form onValidSubmit={loadBoard.bind(this)} onValid={enable.bind(this, true)}
+			      onInvalid={enable.bind(this, false)}> <Input name="username" required isInline={true}
+			                                                   validationError="username is required"
+			                                                   placeholder="username"/><span>/</span><Input
+				name="repoName" required isInline={true}
+				validationError="repository name is required"
+				placeholder="repository name"/>
+				<button type="submit" disabled={this.state.isDisabled}>
 					View
 				</button>
-			</div>
+			</Form>
 		);
 	}
 }
 
+function enable(isValid) {
+	this.setState({isDisabled: !isValid});
+}
 
 function loadBoard() {
 	var {loadBoard, selectBoard} = this.props;
