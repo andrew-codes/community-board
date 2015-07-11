@@ -40,7 +40,7 @@ function enable(isValid) {
 }
 
 function loadBoard(model) {
-	var {loadBoard, selectBoard} = this.props;
+	var {loadBoard} = this.props;
 	var accountType = 'github';
 	var username = model.username;
 	var repoName = model.repoName;

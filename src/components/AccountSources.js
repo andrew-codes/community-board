@@ -54,12 +54,11 @@ export default class extends React.Component {
 }
 
 function loadBoard() {
-    var {loadBoard, selectBoard} = this.props;
+    var {loadBoard} = this.props;
     var accountType = 'github';
     var username = this.refs.username.getDOMNode().value;
     var repoName = this.refs.repoName.getDOMNode().value;
     loadBoard(accountType, username, repoName)
-        .then(selectBoard.bind(this, accountType, username, repoName))
         .then(() => {
             this.context.router.transitionTo(`/${accountType}/${username}/${repoName}`);
         })

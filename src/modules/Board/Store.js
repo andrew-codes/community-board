@@ -15,8 +15,8 @@ export default createStore(initialState, {
         state.currentBoardId = action.result.boardId;
         return state;
     },
-    [actions.selectBoard]: (state = initialState, action) => {
-        state.currentBoardId = action.boardId;
+    [`${actions.loadBoard}-FAILURE`]: (state = initialState, action) => {
+        state.currentBoardId = null;
         return state;
     }
 });
