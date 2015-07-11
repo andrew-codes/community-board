@@ -4,9 +4,9 @@ import React from 'react';
 import {bindActionCreators} from 'redux';
 import {Connector, connect} from 'redux/react';
 import * as GitHub from './../../modules/GitHub';
-import * as Boards from './../../modules/Boards';
 import Board from './../Board';
 import AccountSources from './../AccountSources';
+import * as Board from './../../modules/Board';
 
 var sources = [
 	GitHub.AccountSource

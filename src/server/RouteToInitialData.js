@@ -1,12 +1,12 @@
 'use strict';
 
 import Immutable from 'immutable';
-import * as Boards from './../modules/Boards';
+import * as Board from './../modules/Board';
 import {bindActionCreators} from 'redux';
 
 export default function (redux, state) {
 	if (isBoardSelected(state)) {
-		var actions = bindActionCreators(Boards.Actions, redux.dispatch);
+		var actions = bindActionCreators(Board.Actions, redux.dispatch);
 		return actions.loadBoard('github', state.params.username, state.params.repoName)
 			.then(()=>{
 				return redux.getState();
