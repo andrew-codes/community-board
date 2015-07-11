@@ -2,50 +2,32 @@
 
 import React from 'react';
 import {bindActionCreators} from 'redux';
-import {Connector, connect} from 'redux/react';
-import * as GitHub from './../../modules/GitHub';
-import Board from './../Board';
-import AccountSources from './../AccountSources';
+import {Connector} from 'redux/react';
 import * as Board from './../../modules/Board';
+import BoardSelector from './../BoardSelector';
 
-var sources = [
-	GitHub.AccountSource
-];
 export default class extends React.Component {
 	constructor(props) {
 		super(props);
 	}
 
 	render() {
-		var mainContent = getMainContent.call(this);
 		return (
-			<main>
-				{mainContent}
-			</main>
+			<Connector>
+				{
+					({dispatch})=> {
+						return (
+							<main>
+								<h1>Community Board</h1>
+
+								<p>Community board is a kanban style board powered by GitHub Issues.</p>
+								<h2>View a GitHub Issue Board</h2>
+								<BoardSelector {...bindActionCreators(Board.Actions, dispatch)} />
+							</main>
+						)
+					}
+				}
+			</Connector>
 		);
 	}
-}
-
-function getMainContent() {
-	return (
-		<Connector select={stateSelect}>{
-			({dispatch, currentBoard})=> {
-				return (
-					<main>
-						<h1>Community Board</h1>
-						<section>
-							<p>Community board is a kanban style board powered by GitHub Issues.</p>
-						</section>
-					</main>
-				)
-			}
-		}
-		</Connector>
-	);
-}
-
-function stateSelect(state) {
-	return {
-		currentBoard: state.BoardStore.boards[state.BoardStore.currentBoardId]
-	};
 }
