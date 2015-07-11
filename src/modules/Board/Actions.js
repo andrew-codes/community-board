@@ -12,6 +12,10 @@ const Actions = createActions({
             .then(data=> {
                 return Object.assign({}, data,{boardId});
             });
+    },
+    selectBoard: function (accountType, username, repoName) {
+        var boardId = createBoardId(accountType, username, repoName);
+        return {boardId};
     }
 });
 export default Actions;
