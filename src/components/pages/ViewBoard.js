@@ -21,9 +21,14 @@ export default class extends React.Component {
 				{
 					({dispatch, currentBoard})=> {
 						return (
-							<main>
-								<IssueBoard board={currentBoard} />
-							</main>
+							<div>
+								<header>
+									<BoardSelector {...bindActionCreators(Board.Actions, dispatch)} />
+								</header>
+								<main>
+									<IssueBoard board={currentBoard}/>
+								</main>
+							</div>
 						)
 					}
 				}
