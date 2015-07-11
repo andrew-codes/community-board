@@ -20,13 +20,25 @@ export default class extends React.Component {
 			<Connector select={selectState}>
 				{
 					({dispatch, currentBoard})=> {
+						var styles = {
+							error: {
+								background: 'pink',
+								color: 'red'
+							},
+							repo: {
+								'fontWeight': 600
+							}
+						};
+						var mainContent = currentBoard ?
+							<IssueBoard board={currentBoard}/> :
+							<p style={styles.error}>The board for the repository <span style={styles.repo}>{this.props.params.username}/{this.props.params.repoName}</span> could not load or could not be found.</p>
 						return (
 							<div>
 								<header>
 									<BoardSelector {...bindActionCreators(Board.Actions, dispatch)} />
 								</header>
 								<main>
-									<IssueBoard board={currentBoard}/>
+									{mainContent}
 								</main>
 							</div>
 						)
