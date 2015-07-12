@@ -4,7 +4,7 @@ import RenderRoute from './../RenderRoute';
 
 export default function* (next) {
     try {
-        let renderedOutput = yield RenderRoute(this.request.path);
+        let renderedOutput = yield RenderRoute(this.request.path, this.request.query);
         this.body = renderedOutput;
     }
     catch (error) {

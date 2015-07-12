@@ -3,20 +3,28 @@
 import React from 'react';
 import {Link} from 'react-router';
 import BoardColumn from './BoardColumn';
+import {fetchOnUpdate, hydrateRoute} from './../lib/decorators';
+import * as Board from './../modules/Board';
 
-export default class extends React.Component {
+@hydrateRoute(({redux, params, location})=> {
+	return redux.dispatch(Board.Actions.loadBoard('github', params.username, params.repoName));
+})
+@fetchOnUpdate(['username', 'repoName'], (params, actions) => {
+	const { username, repoName } = params;
+	actions.loadBoard('github', username, repoName);
+}) class IssueBoard extends React.Component {
 	static defaultProps = {
-		board: {
+		currentBoard: {
 			issues: []
 		}
 	};
 
-	constructor(props) {
-		super(props);
+	constructor(props, context) {
+		super(props, context);
 	}
 
 	render() {
-		const { issues } = this.props.board;
+		const { issues } = this.props.currentBoard;
 		const styles = {
 			columns: {
 				display: 'flex',
@@ -42,3 +50,4 @@ export default class extends React.Component {
 		);
 	}
 }
+export default IssueBoard;

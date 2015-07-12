@@ -1,21 +1,31 @@
 'use strict';
 
-import React from 'react';
+import React, {PropTypes} from 'react';
 import Router from 'react-router';
 import Routes from './../Routes';
 import { Provider } from 'redux/react';
 
 export default class Root extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+	constructor(props, context) {
+		super(props, context);
+	}
 
-    render() {
-        var Handler = this.props.handler;
-        return (
-            <Provider redux={this.props.redux}>
-                {() => <Handler /> }
-            </Provider>
-        );
-    }
+	render() {
+		var {
+			redux
+			} = this.props;
+		return (
+			<Provider redux={redux}>
+				{getRoutes.bind(null, this.props.history, this.props.routerState)}
+			</Provider>
+		);
+	}
+}
+
+function getRoutes(history, routerState) {
+	return (
+		<Router history={history} {...routerState}>
+			{Routes}
+		</Router>
+	);
 }

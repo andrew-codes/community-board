@@ -8,7 +8,7 @@ export default class extends React.Component {
 	static defaultProps = {};
 	static propTypes = {};
 	static contextTypes = {
-		router: PropTypes.func.isRequired
+		router: PropTypes.object
 	};
 
 	constructor(props, context) {
@@ -40,12 +40,8 @@ function enable(isValid) {
 }
 
 function loadBoard(model) {
-	var {loadBoard, selectBoard} = this.props;
 	var accountType = 'github';
 	var username = model.username;
 	var repoName = model.repoName;
-	loadBoard(accountType, username, repoName)
-		.then(() => {
-			this.context.router.transitionTo(`/${accountType}/${username}/${repoName}`);
-		})
+	this.context.router.transitionTo(`/${accountType}/${username}/${repoName}`);
 }

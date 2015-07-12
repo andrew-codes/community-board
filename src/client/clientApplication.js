@@ -5,6 +5,7 @@ import React from 'react';
 import Root from './../containers/Root';
 import Router from 'react-router';
 import Routes from './../Routes';
+import BrowserHistory from 'react-router/lib/BrowserHistory'
 import {createDispatcher, createRedux, composeStores} from 'redux';
 import {Provider} from 'redux/react';
 import * as middlewares from './../middleware';
@@ -17,8 +18,5 @@ const dispatcher = createDispatcher(
 
 export default function (el, initialState) {
 	const redux = createRedux(dispatcher, initialState);
-
-	Router.run(Routes, Router.HistoryLocation, (Handler, state) => {
-		React.render(<Root redux={redux} handler={Handler} {...state}/>, el);
-	});
+	React.render(<Root redux={redux} history={new BrowserHistory()}/>, el);
 }

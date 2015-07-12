@@ -4,6 +4,7 @@ import React from 'react';
 import Router from 'react-router';
 import config from './../../build/config';
 import Routes from './../Routes';
+import Location from 'react-router/lib/Location';
 import Root from './../containers/Root';
 import {createDispatcher, createRedux, composeStores} from 'redux';
 import * as stores from './../modules/stores';
@@ -15,24 +16,26 @@ const dispatcher = createDispatcher(
 		getState => [promiseMiddleware, thunkMiddleware(getState)]
 );
 
-export default function (path) {
+export default function (path, query) {
+	var location = new Location(path, query);
 	return new Promise(resolve => {
-		Router.run(Routes, path, (routeRoot, state) => {
-			resolve(renderRoute(routeRoot, state));
+		Router.run(Routes, location, (error, routerState, transition) => {
+			resolve(renderRoute(routerState, transition));
 		});
 	});
 };
 
-function renderRoute(RouteRoot, state) {
+function renderRoute(routerState, transition) {
+	console.log(routerState);
 	const redux = createRedux(dispatcher, {});
 	var bundleScriptSrc = 'assets/bundle.js';
 	var appScriptSrc = config.isProduction ? bundleScriptSrc : `${config.webpackDevUrl}/${bundleScriptSrc}`;
-	return RouteToInitialData(redux, state)
-		.then(initialData=> {
-			var appHtml = React.renderToString(<Root redux={redux} handler={RouteRoot} {...state} />);
+	return Promise.all(RouteToInitialData(redux, routerState))
+		.then(()=> {
+			var appHtml = React.renderToString(<Root redux={redux} routerState={routerState} />);
 			var scriptsHtml = `
 		        <script src="${appScriptSrc}"></script>
-		        <script>CommunityBoard(document.body, ${JSON.stringify(initialData)});</script>
+		        <script>CommunityBoard(document.body, ${JSON.stringify(redux.getState())});</script>
             `;
 			var title = 'A Title';
 			return buildHtmlPage(scriptsHtml, appHtml, title);
@@ -48,7 +51,7 @@ function buildHtmlPage(scriptsHtml, bodyHtml, title) {
         <title ref="title">${title}</title>
         <meta name="viewport" content="width=device-width, user-scalable=no"/>
         <meta name="HandheldFriendly" content="True"/>
-        <link rel="shortcut icon" type="image/x-icon" href="assets/favicon.ico" />
+        <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico" />
     </head>
     <body><div>${bodyHtml}</div>${scriptsHtml}<body>
     </html>`;

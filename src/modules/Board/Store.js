@@ -4,6 +4,7 @@ import {createStore, getActionIds} from './../../lib/utils/redux';
 import Actions from './Actions';
 
 const initialState = {
+    currentBoardDoesNotExists: false,
     currentBoardId: null,
     boards: {}
 };
