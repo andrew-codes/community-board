@@ -37,14 +37,18 @@ import * as Board from './../modules/Board';
 				padding: '10px'
 			}
 		};
+		var readyFilter = (issue)=>(issue.labels.filter(label=>label.name === 'ready').length > 0);
+		var inProgressFilter = (issue)=>(issue.labels.filter(label=>label.name === 'in progress').length > 0);
+		var doneFilter = (issue) =>(issue.state === 'closed');
+		var backlogFilter = (issue) => (!readyFilter(issue) && !inProgressFilter(issue) && !doneFilter(issue));
 		return (
 			<div>
 				<h1>Board</h1>
 				<ol style={styles.columns}>
-					<li style={styles.column}><BoardColumn issues={issues} title="Backlog"/></li>
-					<li style={styles.column}><BoardColumn issues={[]} title="Ready"/></li>
-					<li style={styles.column}><BoardColumn issues={[]} title="In Progress"/></li>
-					<li style={styles.column}><BoardColumn issues={[]} title="Done"/></li>
+					<li style={styles.column}><BoardColumn issues={issues.filter(backlogFilter)} title="Backlog"/></li>
+					<li style={styles.column}><BoardColumn issues={issues.filter(readyFilter)} title="Ready"/></li>
+					<li style={styles.column}><BoardColumn issues={issues.filter(inProgressFilter)} title="In Progress"/></li>
+					<li style={styles.column}><BoardColumn issues={issues.filter(doneFilter)} title="Done"/></li>
 				</ol>
 			</div>
 		);
