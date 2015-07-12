@@ -9,7 +9,7 @@ import Root from './../containers/Root';
 import {createDispatcher, createRedux, composeStores} from 'redux';
 import * as stores from './../modules/stores';
 import RouteToInitialData from './RouteToInitialData';
-import * as middlewares from './../middleware';
+import * as middlewares from './../lib/middleware';
 const {thunkMiddleware, promiseMiddleware} = middlewares;
 const dispatcher = createDispatcher(
 	composeStores(stores),
