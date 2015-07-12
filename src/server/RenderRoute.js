@@ -26,7 +26,6 @@ export default function (path, query) {
 };
 
 function renderRoute(routerState, transition) {
-	console.log(routerState);
 	const redux = createRedux(dispatcher, {});
 	var bundleScriptSrc = 'assets/bundle.js';
 	var appScriptSrc = config.isProduction ? bundleScriptSrc : `${config.webpackDevUrl}/${bundleScriptSrc}`;

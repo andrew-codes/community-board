@@ -11,7 +11,6 @@ export default function (redux, routerState) {
 	return routerState.components
 		.filter(component=>component.hydrateRoute)
 		.map(component => {
-			console.log(component);
 			return component.hydrateRoute({redux, params, location})
 		});
 }
