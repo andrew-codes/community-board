@@ -7,7 +7,8 @@ import {fetchOnUpdate, hydrateRoute} from './../lib/decorators';
 import * as Board from './../modules/Board';
 
 @hydrateRoute(({redux, params, location})=> {
-	return redux.dispatch(Board.Actions.loadBoard('github', params.username, params.repoName));
+	const { username, repoName } = params;
+	return redux.dispatch(Board.Actions.loadBoard('github', username, repoName));
 })
 @fetchOnUpdate(['username', 'repoName'], (params, actions) => {
 	const { username, repoName } = params;
