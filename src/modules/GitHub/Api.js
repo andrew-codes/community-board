@@ -8,9 +8,9 @@ import {camelCase} from './../../lib/utils/dataTransforms';
 const apiRoot = 'https://api.github.com';
 
 export function getIssues(username, repoName) {
-    return ajax.get(`${apiRoot}/repos/${username}/${repoName}/issues`)
-        .then(result=>result.data)
-        .then(transformToGitHubData);
+	return ajax.get(`${apiRoot}/repos/${username}/${repoName}/issues`, {params: {state: 'all'}})
+		.then(result=>result.data)
+		.then(transformToGitHubData);
 }
 
 function transformToGitHubData(gitHubIssues) {
