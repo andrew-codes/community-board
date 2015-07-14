@@ -6,17 +6,13 @@ import Root from './../containers/Root';
 import Router from 'react-router';
 import Routes from './../Routes';
 import BrowserHistory from 'react-router/lib/BrowserHistory'
-import {createDispatcher, createRedux, composeStores} from 'redux';
+import {createStore, composeReducers} from 'redux';
 import {Provider} from 'redux/react';
 import * as middlewares from './../lib/middleware';
 import * as stores from './../modules/stores';
 const {loggerMiddleware, thunkMiddleware, promiseMiddleware} = middlewares;
-const dispatcher = createDispatcher(
-	composeStores(stores),
-		getState => [promiseMiddleware, thunkMiddleware(getState), loggerMiddleware]
-);
 
 export default function (el, initialState) {
-	const redux = createRedux(dispatcher, initialState);
-	React.render(<Root redux={redux} history={new BrowserHistory()}/>, el);
+	const redux = createStore(stores, initialState, ({getState, dispatch}) => [loggerMiddleware, thunkMiddleware(getState), promiseMiddleware]);
+	React.render(<Root store={redux} history={new BrowserHistory()}/>, el);
 }

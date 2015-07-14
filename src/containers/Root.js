@@ -12,10 +12,10 @@ export default class Root extends React.Component {
 
 	render() {
 		var {
-			redux
+			store
 			} = this.props;
 		return (
-			<Provider redux={redux}>
+			<Provider store={store}>
 				{getRoutes.bind(null, this.props.history, this.props.routerState)}
 			</Provider>
 		);
