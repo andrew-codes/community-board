@@ -9,9 +9,9 @@ export default function (next) {
 
         const [REQUEST, SUCCESS, FAILURE] = types;
         next({...rest, type: REQUEST});
-        return promise.then(
-            (result) => next({...rest, result, type: SUCCESS}),
-            (error) => next({...rest, error, type: FAILURE})
+        return promise
+            .then(result => next({...rest, result, type: SUCCESS}))
+            .catch(error => next({...rest, error, type: FAILURE})
         );
     }
 }
