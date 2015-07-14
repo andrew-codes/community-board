@@ -9,6 +9,15 @@ Create a `./user.json` file in the root of the application. Within this JSON fil
  secret from your GitHub developer application. Without these, there is a stiff limit on the number of API requests 
  that can be made in a given period of time.
 
+An example `user.json` can be seen below:
+
+```javascript
+{
+  "clientId": "my-client-id",
+  "clientSecret": "my-client-secret"
+}
+```
+
 Running for Production
 ======================
 
