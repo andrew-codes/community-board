@@ -17,7 +17,6 @@ export function getAllPagedResults(apiResult) {
 
 export function parseLink(linkHeader) {
 	var match = /(https:\/\/api.github.com\/.*&page=[1-9][0-9]*?)>[;]\srel="next"/.exec(linkHeader);
-	console.log('matches', match);
 	if (!match) {
 		return null;
 	}

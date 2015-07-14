@@ -7,7 +7,7 @@ import {getAllPagedResults} from './GitHubApiUtils';
 import {clientId, clientSecret} from './../../../../../user.json';
 
 const apiRoot = 'https://api.github.com';
-const matchingUrl = '/api/github/issues';
+const matchingUrl = '/api/issues/github';
 
 export default function* (next) {
 	if (!match(this.request)) {
@@ -24,7 +24,6 @@ export default function* (next) {
 		}))
 			.then(transformToGitHubData);
 		var content = yield apiResult;
-		console.log(content.issues.length);
 		this.body = content;
 	}
 	catch (error) {
