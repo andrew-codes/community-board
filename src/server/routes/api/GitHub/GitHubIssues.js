@@ -1,45 +1,39 @@
 'use strict';
 
-import ajax from 'axios';
+import request from 'axios';
 import moment from 'moment';
-import _ from 'lodash';
-import {camelCase} from './../../lib/utils/dataTransforms';
+import _ from 'underscore';
+import {getAllPagedResults} from './GitHubApiUtils';
+import {clientId, clientSecret} from './../../../../../user.json';
 
 const apiRoot = 'https://api.github.com';
+const matchingUrl = '/api/github/issues';
 
-export function getIssues(username, repoName) {
-	var apiResult = ajax.get(`${apiRoot}/repos/${username}/${repoName}/issues`, {
-		params: {
-			state: 'all'
-		}
-	});
-	return apiResult
-		.then(result=>result.data)
-		.then(transformToGitHubData);
-}
-
-function paginatedResults(apiResult) {
-	return apiResult
-		.then((results) => {
-			console.log('here');
-			var paginationLink = parseLink(results.headers.link);
-			if (!paginationLink) {
-				return results;
-			}
-			return paginatedResults(ajax.get(paginationLink))
-				.then(pagedResults=>results.concat(pagedResults));
-		});
-}
-
-function parseLink(linkHeader) {
-	var paginationPointers = linkHeader.split(',');
-	var match = /https:\/\/api.github.com\/.*&page=[1-9][0-9]*/.exec(paginationPointers[0]);
-	if (!match) {
-		return null;
+export default function* (next) {
+	if (!match(this.request)) {
+		return yield next;
 	}
-	return match[0];
-// <https://api.github.com/repositories/37690503/issues?state=all&page=2>; rel="next",
-// <https://api.github.com/repositories/37690503/issues?state=all&page=2>; rel="last"
+	try {
+		var urlParams = this.request.path.replace(new RegExp(`^${matchingUrl}/`), '').split('/');
+		var apiResult = getAllPagedResults(request.get(`${apiRoot}/repos/${urlParams[0]}/${urlParams[1]}/issues`, {
+			params: {
+				state: 'all',
+				client_id: clientId,
+				client_secret: clientSecret
+			}
+		}))
+			.then(transformToGitHubData);
+		var content = yield apiResult;
+		console.log(content.issues.length);
+		this.body = content;
+	}
+	catch (error) {
+		this.throw(500, error);
+	}
+}
+
+function match(request) {
+	return request.path.indexOf(matchingUrl) === 0;
 }
 
 function transformToGitHubData(gitHubIssues) {
