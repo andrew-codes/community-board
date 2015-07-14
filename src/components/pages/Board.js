@@ -24,7 +24,7 @@ import BoardSelector from './../BoardSelector';
 		return (
 			<div>
 				<header>
-					<BoardSelector />
+					<BoardSelector loadBoard={boardActions.loadBoard} />
 				</header>
 				<main>
 					{this.props.children &&

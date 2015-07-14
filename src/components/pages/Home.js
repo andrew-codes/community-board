@@ -15,6 +15,7 @@ import BoardSelector from './../BoardSelector';
 		var {
 			dispatch
 			} = this.props;
+        var boardActions = bindActionCreators(Board.Actions, dispatch);
 		return (
 			<main>
 				<h1>Community Board</h1>
@@ -22,7 +23,7 @@ import BoardSelector from './../BoardSelector';
 				<p>Community board is a kanban style board powered by GitHub Issues.</p>
 
 				<h2>View a GitHub Issue Board</h2>
-				<BoardSelector />
+				<BoardSelector loadBoard={boardActions.loadBoard} />
 			</main>
 		);
 	}

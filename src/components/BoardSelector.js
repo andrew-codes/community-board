@@ -6,7 +6,9 @@ import Input from './FormControls/Input';
 
 export default class extends React.Component {
 	static defaultProps = {};
-	static propTypes = {};
+	static propTypes = {
+        loadBoard: PropTypes.func.isRequired
+    };
 	static contextTypes = {
 		router: PropTypes.object
 	};
@@ -43,5 +45,6 @@ function loadBoard(model) {
 	var accountType = 'github';
 	var username = model.username;
 	var repoName = model.repoName;
+    this.props.loadBoard(accountType, username, repoName);
 	this.context.router.transitionTo(`/${accountType}/${username}/${repoName}`);
 }
