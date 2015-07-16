@@ -6,13 +6,16 @@ import Root from './../containers/Root';
 import Router from 'react-router';
 import Routes from './../Routes';
 import BrowserHistory from 'react-router/lib/BrowserHistory'
-import {createStore, composeReducers} from 'redux';
-import {Provider} from 'redux/react';
+import {createStore, combineReducers, applyMiddleware} from 'redux';
+import {Provider} from 'react-redux';
 import * as middlewares from './../lib/middleware';
-import * as stores from './../modules/stores';
-const {loggerMiddleware, thunkMiddleware, promiseMiddleware} = middlewares;
+import * as reducers from './../modules/reducers';
+const {loggerMiddleware, promiseMiddleware} = middlewares;
+import thunkMiddleware from 'redux-thunk';
 
 export default function (el, initialState) {
-	const redux = createStore(stores, initialState, ({getState, dispatch}) => [loggerMiddleware, thunkMiddleware(getState), promiseMiddleware]);
-	React.render(<Root store={redux} history={new BrowserHistory()}/>, el);
+    const reducer = combineReducers(reducers);
+    const createStoreWithMiddleware = applyMiddleware(loggerMiddleware, thunkMiddleware, promiseMiddleware)(createStore);
+    const store = createStoreWithMiddleware(reducer, initialState);
+	React.render(<Root store={store} history={new BrowserHistory()}/>, el);
 }

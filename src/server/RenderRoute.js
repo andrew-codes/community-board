@@ -6,11 +6,12 @@ import config from './../../build/config';
 import Routes from './../Routes';
 import Location from 'react-router/lib/Location';
 import Root from './../containers/Root';
-import {createStore, composeReducers} from 'redux';
-import * as stores from './../modules/stores';
+import {createStore, combineReducers, applyMiddleware} from 'redux';
+import * as reducers from './../modules/reducers';
 import RouteToInitialData from './RouteToInitialData';
 import * as middlewares from './../lib/middleware';
-const {loggerMiddleware, thunkMiddleware, promiseMiddleware} = middlewares;
+const {loggerMiddleware, promiseMiddleware} = middlewares;
+import thunkMiddleware from 'redux-thunk';
 
 export default function (path, query) {
 	var location = new Location(path, query);
@@ -22,15 +23,17 @@ export default function (path, query) {
 };
 
 function renderRoute(routerState, transition) {
-    const redux = createStore(stores, {}, ({getState, dispatch}) => [loggerMiddleware, thunkMiddleware(getState), promiseMiddleware]);
+    const reducer = combineReducers(reducers);
+    const createStoreWithMiddleware = applyMiddleware(loggerMiddleware, thunkMiddleware, promiseMiddleware)(createStore);
+    const store = createStoreWithMiddleware(reducer, {});
     var bundleScriptSrc = 'assets/bundle.js';
     var appScriptSrc = config.isProduction ? bundleScriptSrc : `${config.webpackDevUrl}/${bundleScriptSrc}`;
-	return Promise.all(RouteToInitialData(redux, routerState))
+	return Promise.all(RouteToInitialData(store, routerState))
 		.then(()=> {
-			var appHtml = React.renderToString(<Root store={redux} routerState={routerState} />);
+			var appHtml = React.renderToString(<Root store={store} routerState={routerState} />);
 			var scriptsHtml = `
 		        <script src="${appScriptSrc}"></script>
-		        <script>CommunityBoard(document.body, ${JSON.stringify(redux.getState())});</script>
+		        <script>CommunityBoard(document.body, ${JSON.stringify(store.getState())});</script>
             `;
 			var title = 'A Title';
 			return buildHtmlPage(scriptsHtml, appHtml, title);

@@ -4,15 +4,12 @@ import React from 'react';
 import {Link} from 'react-router';
 import BoardColumn from './BoardColumn';
 import {fetchOnUpdate, hydrateRoute} from './../lib/decorators';
-import * as Board from './../modules/Board';
+import * as BoardActions from './../modules/Boards/Actions';
 
-@hydrateRoute(({redux, params, location})=> {
-	const { username, repoName } = params;
-	return redux.dispatch(Board.Actions.loadBoard('github', username, repoName));
-})
+
 @fetchOnUpdate(['username', 'repoName'], (params, actions) => {
 	const { username, repoName } = params;
-	actions.loadBoard('github', username, repoName);
+    actions.loadBoard('github', username, repoName);
 }) class IssueBoard extends React.Component {
 	static defaultProps = {
 		currentBoard: {

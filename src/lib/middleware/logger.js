@@ -1,8 +1,8 @@
 'use strict';
 
-export default function(next) {
-    return (action) => {
+export default function ({dispatch, getState}) {
+    return next => action => {
         console.log(action);
-        next(action);
+        return next(action);
     };
 };
