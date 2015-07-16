@@ -3,7 +3,7 @@
 import React, {PropTypes} from 'react';
 import Router from 'react-router';
 import Routes from './../Routes';
-import { Provider } from 'redux/react';
+import { Provider } from 'react-redux';
 
 export default class Root extends React.Component {
 	constructor(props, context) {
@@ -12,10 +12,10 @@ export default class Root extends React.Component {
 
 	render() {
 		var {
-			redux
+			store
 			} = this.props;
 		return (
-			<Provider redux={redux}>
+			<Provider store={store}>
 				{getRoutes.bind(null, this.props.history, this.props.routerState)}
 			</Provider>
 		);

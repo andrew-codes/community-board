@@ -1,6 +1,5 @@
 'use strict';
 
-import * as Board from './../modules/Board';
 import {bindActionCreators} from 'redux';
 
 export default function (redux, routerState) {

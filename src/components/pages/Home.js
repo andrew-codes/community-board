@@ -2,8 +2,8 @@
 
 import React, {PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
-import {connect} from 'redux/react';
-import * as Board from './../../modules/Board';
+import {connect} from 'react-redux';
+import * as BoardActions from './../../modules/Boards/Actions';
 import BoardSelector from './../BoardSelector';
 
 @connect(state => ({})) class Home extends React.Component {
@@ -15,7 +15,7 @@ import BoardSelector from './../BoardSelector';
 		var {
 			dispatch
 			} = this.props;
-        var boardActions = bindActionCreators(Board.Actions, dispatch);
+        var boardActions = bindActionCreators(BoardActions, dispatch);
 		return (
 			<main>
 				<h1>Community Board</h1>

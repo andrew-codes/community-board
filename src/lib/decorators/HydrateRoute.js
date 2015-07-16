@@ -8,7 +8,7 @@ export default function hydrateRoute(fn) {
 			static hydrateRoute = fn;
 
 			static contextTypes = {
-				redux: PropTypes.object.isRequired
+				store: PropTypes.object.isRequired
 			};
 			static propTypes = {
 				params: PropTypes.object.isRequired,

@@ -2,36 +2,39 @@
 
 import React, {PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
-import {connect} from 'redux/react';
-import * as Board from './../../modules/Board';
+import {connect} from 'react-redux';
+import * as BoardActions from './../../modules/Boards/Actions';
 import BoardSelector from './../BoardSelector';
+import _ from 'underscore';
 
-@connect(state => ({
-	currentBoard: state.BoardStore.boards[state.BoardStore.currentBoardId]
-})) class ViewBoard extends React.Component {
-	static defaultProps = {};
-	static propTypes = {};
+@connect(state => {
+    return ({
+        currentBoard: _.first(state.Boards.filter(board=>board.isSelected))
+    });
+}) class ViewBoard extends React.Component {
+    static defaultProps = {};
+    static propTypes = {};
 
-	constructor(props, context) {
-		super(props, context);
-	}
+    constructor(props, context) {
+        super(props, context);
+    }
 
-	render() {
-		const {
-			dispatch
-			} = this.props;
-		const boardActions = bindActionCreators(Board.Actions, dispatch);
-		return (
-			<div>
-				<header>
-					<BoardSelector loadBoard={boardActions.loadBoard} />
-				</header>
-				<main>
-					{this.props.children &&
-					React.cloneElement(this.props.children, {actions: boardActions, ...this.props })}
-				</main>
-			</div>
-		);
-	}
+    render() {
+        const {
+            dispatch
+            } = this.props;
+        const boardActions = bindActionCreators(BoardActions, dispatch);
+        return (
+            <div>
+                <header>
+                    <BoardSelector loadBoard={boardActions.loadBoard}/>
+                </header>
+                <main>
+                    {this.props.children &&
+                    React.cloneElement(this.props.children, {actions: boardActions, ...this.props })}
+                </main>
+            </div>
+        );
+    }
 }
 export default ViewBoard;

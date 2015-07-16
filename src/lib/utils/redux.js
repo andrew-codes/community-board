@@ -1,11 +1,11 @@
 'use strict';
 
-import _ from 'lodash';
+import _ from 'underscore';
 import uniqueId from 'uniqueid';
 
 export const createActions = (actionObj) => {
     const baseId = uniqueId();
-    return _.zipObject(_.map(actionObj, (actionCreator, key) => {
+    return _.object(_.map(actionObj, (actionCreator, key) => {
         const actionId = `${baseId}-${key}`;
         const method = (...args) => {
             const result = actionCreator(...args);
@@ -38,7 +38,7 @@ return [key, method];
 };
 
 export const getActionIds = (actionCreators) => {
-    return _.mapValues(actionCreators, (value, key) => {
+    return _.mapObject(actionCreators, (value, key) => {
         return value._id;
     });
 };
