@@ -1,18 +1,40 @@
 'use strict';
 
 import koa from 'koa';
-import Routes from './routes';
+import * as Routes from './routes';
+import cors from 'koa-cors';
 
-export default function (port) {
-    var server = koa();
+const applicationRoutes = [
+	Routes.AuthorizationCallback,
+	Routes.StaticAssets,
+	Routes.Application
+];
+const apiRoutes = [
+	Routes.GitHubIssueApi
+];
 
-    Routes.forEach(serverRoute=> {
-        server.use(serverRoute);
-    });
+export function application(port) {
+	return startServer(port, applicationRoutes);
+}
 
-    server.listen(port, () => {
-        console.log('Server is listening on port ' + port);
-    });
+export function api(port) {
+	return startServer(port, apiRoutes, true);
+}
 
-    return server;
+function startServer(port, routes, isApi) {
+	var server = koa();
+
+	if (isApi){
+		server.use(cors());
+	}
+
+	routes.forEach(serverRoute=> {
+		server.use(serverRoute);
+	});
+
+	server.listen(port, () => {
+		console.log('Server is listening on port ' + port);
+	});
+
+	return server;
 }

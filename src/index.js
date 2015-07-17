@@ -1,7 +1,8 @@
 'use strict';
 
 require('babel/register');
-var serverFactory = require('./server/ServerFactory');
+var ServerFactory = require('./server/ServerFactory');
 var config = require('./../build/config');
 
-serverFactory(config.port);
+ServerFactory.application(config.port);
+ServerFactory.api(config.apiPort);

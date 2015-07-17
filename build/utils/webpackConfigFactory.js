@@ -29,35 +29,7 @@ export default function (config) {
             libraryTarget: 'umd',
             library: 'CommunityBoard'
         },
-        plugins: (function () {
-            let plugins = [
-                new webpack.DefinePlugin({
-                    'process.env': {
-                        NODE_ENV: JSON.stringify(config.isProduction ? 'production' :
-                            'development'),
-                        IS_BROWSER: true
-                    }
-                })
-            ];
-            if (config.isProduction) {
-                plugins.push(
-                    new webpack.optimize.DedupePlugin(),
-                    new webpack.optimize.OccurenceOrderPlugin(),
-                    new webpack.optimize.UglifyJsPlugin({
-                        compress: {
-                            warnings: false
-                        }
-                    })
-                );
-            }
-            else {
-                plugins.push(
-                    new webpack.HotModuleReplacementPlugin(),
-                    new webpack.NoErrorsPlugin()
-                );
-            }
-            return plugins;
-        })(),
+        plugins: getPlugins(config),
         resolve: {
             extensions: ['', '.js', '.jsx', '.json']
         },
@@ -69,4 +41,30 @@ export default function (config) {
             }]
         }
     };
+}
+
+function getPlugins(config) {
+    let plugins = [
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify(config.isProduction ? 'production' :
+                    'development'),
+                IS_BROWSER: true
+            }
+        }),
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin()
+    ];
+    if (config.isProduction) {
+        plugins.push(
+            new webpack.optimize.DedupePlugin(),
+            new webpack.optimize.OccurenceOrderPlugin(),
+            new webpack.optimize.UglifyJsPlugin({
+                compress: {
+                    warnings: false
+                }
+            })
+        );
+    }
+    return plugins;
 }

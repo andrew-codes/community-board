@@ -6,7 +6,9 @@ import BoardColumn from './BoardColumn';
 import {fetchOnUpdate, hydrateRoute} from './../lib/decorators';
 import * as BoardActions from './../modules/Boards/Actions';
 
-
+@hydrateRoute(({redux, params: {username, repoName}, location})=>{
+	return redux.dispatch(BoardActions.loadBoard('github', username, repoName));
+})
 @fetchOnUpdate(['username', 'repoName'], (params, actions) => {
 	const { username, repoName } = params;
     actions.loadBoard('github', username, repoName);
