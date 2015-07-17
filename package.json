@@ -10,6 +10,7 @@
     "co-body": "2.0.0",
     "formsy-react": "0.14.1",
     "koa": "0.21.0",
+    "koa-cors": "0.0.16",
     "koa-route": "2.4.1",
     "koa-send": "1.3.1",
     "koa-static": "1.4.9",

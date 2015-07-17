@@ -1,13 +1,6 @@
 'use strict';
 
-import AuthorizationCallback from './AuthorizationCallback';
-import StaticAssets from './StaticAssets';
-import GitHubIssueApi from './api/GitHub/GitHubIssues';
-import Application from './Application';
-
-export default [
-    AuthorizationCallback,
-    StaticAssets,
-    GitHubIssueApi,
-    Application
-];
+export {default as AuthorizationCallback} from './AuthorizationCallback';
+export {default as StaticAssets} from './StaticAssets';
+export {default as GitHubIssueApi} from './api/GitHub/GitHubIssues';
+export {default as Application} from './Application';
