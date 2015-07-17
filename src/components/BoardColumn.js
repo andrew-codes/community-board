@@ -25,7 +25,7 @@ export default class extends React.Component {
 		var styles = getStyles.call(this);
 		return (
 			<div>
-				<h2>{title}</h2>
+				<h2>{title} <small>{issues.length}</small></h2>
 				<ol style={styles.list}>
 					{issues.map((issue, index)=> (
 						<li key={index} style={styles.listItem}>
