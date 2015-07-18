@@ -89,7 +89,8 @@ function transformUser(user) {
 		avatarUrl: user.avatar_url,
 		gravatarId: user.gravatar_id,
 		login: user.login,
-		url: user.url
+		url: user.url,
+		htmlUrl: user.html_url
 	};
 }
 

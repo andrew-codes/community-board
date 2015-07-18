@@ -8,9 +8,14 @@ import BoardSelector from './../BoardSelector';
 import _ from 'underscore';
 
 @connect(state => {
-    return ({
-        currentBoard: _.first(state.Boards.filter(board=>board.isSelected))
+    var currentBoard = _.first(state.Boards.filter(board=>board.isSelected));
+    currentBoard.issues = currentBoard.issues.map(issue=> {
+        if (issue.assignee) {
+            issue.assignee = _.first(currentBoard.users.filter(user=>user.id ===issue.assignee.id))
+        }
+        return issue;
     });
+    return {currentBoard};
 }) class ViewBoard extends React.Component {
     static defaultProps = {};
     static propTypes = {};
