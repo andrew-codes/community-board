@@ -5,13 +5,14 @@ import {Link} from 'react-router';
 import BoardColumn from './BoardColumn';
 import {fetchOnUpdate, hydrateRoute} from './../lib/decorators';
 import * as BoardActions from './../modules/Boards/Actions';
+import _ from 'underscore';
 
-@hydrateRoute(({redux, params: {username, repoName}, location})=>{
+@hydrateRoute(({redux, params: {username, repoName}, location})=> {
 	return redux.dispatch(BoardActions.loadBoard('github', username, repoName));
 })
 @fetchOnUpdate(['username', 'repoName'], (params, actions) => {
 	const { username, repoName } = params;
-    actions.loadBoard('github', username, repoName);
+	actions.loadBoard('github', username, repoName);
 }) class IssueBoard extends React.Component {
 	static defaultProps = {
 		currentBoard: {
@@ -24,7 +25,7 @@ import * as BoardActions from './../modules/Boards/Actions';
 	}
 
 	render() {
-		const { issues } = this.props.currentBoard;
+		var { currentBoard: {issues} } = this.props;
 		const styles = {
 			columns: {
 				display: 'flex',
@@ -47,7 +48,8 @@ import * as BoardActions from './../modules/Boards/Actions';
 				<ol style={styles.columns}>
 					<li style={styles.column}><BoardColumn issues={issues.filter(backlogFilter)} title="Backlog"/></li>
 					<li style={styles.column}><BoardColumn issues={issues.filter(readyFilter)} title="Ready"/></li>
-					<li style={styles.column}><BoardColumn issues={issues.filter(inProgressFilter)} title="In Progress"/></li>
+					<li style={styles.column}><BoardColumn issues={issues.filter(inProgressFilter)}
+					                                       title="In Progress"/></li>
 					<li style={styles.column}><BoardColumn issues={issues.filter(doneFilter)} title="Done"/></li>
 				</ol>
 			</div>
